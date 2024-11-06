@@ -1,9 +1,11 @@
 import os
-
+import mbta_helper
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+print(mbta_helper.find_stop_near("Boston University"))
+
 
 # Get API keys from environment variables
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")

@@ -10,7 +10,7 @@ def index():
     """
     Render the homepage with a form for the user to input a location.
     """
-    return render_template("index.html")  # Display an input form
+    return render_template("index.html")  
 
 
 @app.route("/nearest_mbta", methods=["POST"])
@@ -33,7 +33,6 @@ def nearest_mbta():
             wheelchair_accessible=wheelchair_accessible
         )
     except Exception as e:
-        # Render an error page with an appropriate message
         error_message = str(e)
         return render_template("error.html", error_message=error_message)
 

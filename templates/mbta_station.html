@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTA Station Details</title>
+</head>
+<body>
+    <h1>Nearest MBTA Station</h1>
+    <p><strong>Location:</strong> {{ location }}</p>
+    <p><strong>Closest MBTA Stop:</strong> {{ stop_name }}</p>
+    <p><strong>Wheelchair Accessible:</strong> {{ 'Yes' if wheelchair_accessible else 'No' }}</p>
+    <a href="/">Search Again</a>
+</body>
+</html>
+

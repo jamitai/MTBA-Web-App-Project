@@ -1,5 +1,5 @@
-import json
 import os
+import json
 import pprint
 from dotenv import load_dotenv
 from urllib import request, error, parse
@@ -11,7 +11,7 @@ load_dotenv()
 # Get API keys from environment variables
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
 MBTA_API_KEY = os.getenv("MBTA_API_KEY")
-#OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
+OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
 OPEN_WEATHER_API_KEY="0b6fc19b5292374df0c8ed0b68db285d"
 print("OPEN_WEATHER_API_KEY:", OPEN_WEATHER_API_KEY)
 
@@ -19,14 +19,13 @@ print("OPEN_WEATHER_API_KEY:", OPEN_WEATHER_API_KEY)
 MAPBOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places"
 MBTA_BASE_URL = "https://api-v3.mbta.com/stops"
 OPEN_WEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
-
-
-
+##print("open_weather_base_url:", OPEN_WEATHER_BASE_URL)
+ 
+##print("open_weather_base_url:", OPEN_WEATHER_BASE_URL)
 # A little bit of scaffolding if you want to use it
 def get_json(url: str) -> dict:
     """
     Given a properly formatted URL for a JSON web API request, return a Python JSON object containing the response to that request.
-
     Both get_lat_lng() and get_nearest_station() might need to use this function.
     """
     with request.urlopen(url) as response:
@@ -34,6 +33,7 @@ def get_json(url: str) -> dict:
         response_data = json.loads(response_text)
         return response_data
     pass
+
 
 
 def get_lat_lng(place_name: str) -> tuple[str, str]:
@@ -118,16 +118,15 @@ def get_weather(latitude: str, longitude: str) -> dict:
     """
     url = f"{OPEN_WEATHER_BASE_URL}?lat={latitude}&lon={longitude}&appid={OPEN_WEATHER_API_KEY}&units=imperial"
     weather_data = get_json(url)
-    
+    print(url)
     # Extract relevant weather information
     temperature = weather_data["main"]["temp"]
     weather_description = weather_data["weather"][0]["description"]
     humidity = weather_data["main"]["humidity"]
-    
     return {
         "temperature": temperature,
         "weather_description": weather_description,
-        "humidity": humidity
+        "humidity": humidity,
     }
 
 
@@ -144,6 +143,5 @@ def main():
     print(f"Condition: {result['weather']['weather_description'].capitalize()}")
     print(f"Humidity: {result['weather']['humidity']}%")
 
-if __name__ == "__main__":
+if __name__ == "_main_":
     main()
-

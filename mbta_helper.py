@@ -11,10 +11,15 @@ load_dotenv()
 # Get API keys from environment variables
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
 MBTA_API_KEY = os.getenv("MBTA_API_KEY")
+#OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
+OPEN_WEATHER_API_KEY="0b6fc19b5292374df0c8ed0b68db285d"
+print("OPEN_WEATHER_API_KEY:", OPEN_WEATHER_API_KEY)
 
 # Useful base URLs (you need to add the appropriate parameters for each API request)
 MAPBOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places"
 MBTA_BASE_URL = "https://api-v3.mbta.com/stops"
+OPEN_WEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+
 
 
 # A little bit of scaffolding if you want to use it
@@ -91,15 +96,40 @@ def get_nearest_station(latitude: str, longitude: str) -> tuple[str, bool]:
     return (station_name, wheelchair_accessible)
 
 
-def find_stop_near(place_name: str) -> tuple[str, bool]:
+def find_stop_near(place_name: str) -> dict:
     """
-    Given a place name or address, return the nearest MBTA stop and whether it is wheelchair accessible.
+    Given a place name or address, return the nearest MBTA stop, wheelchair accessibility, and current weather information.
+    """
+    latitude, longitude = get_lat_lng(place_name)
+    station_name, wheelchair_accessible = get_nearest_station(latitude, longitude)
+    weather_info = get_weather(latitude, longitude)
 
-    This function might use all the functions above.
+    # Return all information in a dictionary
+    return {
+        "station_name": station_name,
+        "wheelchair_accessible": wheelchair_accessible,
+        "weather": weather_info
+    }
+
+def get_weather(latitude: str, longitude: str) -> dict:
     """
-    place_coords = get_lat_lng(place_name)
-    lat, long = place_coords
-    return get_nearest_station(lat, long)
+    Given latitude and longitude strings, return a dictionary with the current weather information including temperature,
+    weather description, and humidity.
+    """
+    url = f"{OPEN_WEATHER_BASE_URL}?lat={latitude}&lon={longitude}&appid={OPEN_WEATHER_API_KEY}&units=imperial"
+    weather_data = get_json(url)
+    
+    # Extract relevant weather information
+    temperature = weather_data["main"]["temp"]
+    weather_description = weather_data["weather"][0]["description"]
+    humidity = weather_data["main"]["humidity"]
+    
+    return {
+        "temperature": temperature,
+        "weather_description": weather_description,
+        "humidity": humidity
+    }
+
 
 
 def main():
@@ -107,8 +137,13 @@ def main():
     You should test all the above functions here
     """
     query = "Boston University"
+    result = find_stop_near(query)
     print(find_stop_near(query))
-
+    print("Current weather:")
+    print(f"Temperature: {result['weather']['temperature']}°F")
+    print(f"Condition: {result['weather']['weather_description'].capitalize()}")
+    print(f"Humidity: {result['weather']['humidity']}%")
 
 if __name__ == "__main__":
     main()
+

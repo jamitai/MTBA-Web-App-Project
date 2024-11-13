@@ -10,7 +10,13 @@
     <p><strong>Location:</strong> {{ location }}</p>
     <p><strong>Closest MBTA Stop:</strong> {{ stop_name }}</p>
     <p><strong>Wheelchair Accessible:</strong> {{ 'Yes' if wheelchair_accessible else 'No' }}</p>
+
+    <!-- Weather Information Section -->
+    <h2>Current Weather</h2>
+    <p><strong>Temperature:</strong> {{ weather.temperature }}°F</p>
+    <p><strong>Condition:</strong> {{ weather.weather_description }}</p>
+    <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+
     <a href="/">Search Again</a>
 </body>
 </html>
-

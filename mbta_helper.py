@@ -12,8 +12,8 @@ load_dotenv()
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
 MBTA_API_KEY = os.getenv("MBTA_API_KEY")
 OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
-OPEN_WEATHER_API_KEY="0b6fc19b5292374df0c8ed0b68db285d"
-print("OPEN_WEATHER_API_KEY:", OPEN_WEATHER_API_KEY)
+##OPEN_WEATHER_API_KEY="insert key"
+#print("OPEN_WEATHER_API_KEY:", OPEN_WEATHER_API_KEY)
 
 # Useful base URLs (you need to add the appropriate parameters for each API request)
 MAPBOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places"
@@ -137,6 +137,7 @@ def main():
     """
     query = "Boston University"
     result = find_stop_near(query)
+    
     print(find_stop_near(query))
     print("Current weather:")
     print(f"Temperature: {result['weather']['temperature']}°F")
